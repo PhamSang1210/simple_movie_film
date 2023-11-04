@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    * {
+        cursor: url("../public/rocket_24.png"), auto !important;
+    }
+
+    html {
+        scroll-behavior: smooth;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+        @apply bg-slate-900 font-body px-5;
+    }
+}
+
+@layer components {
+    .page-container {
+        width: 1280px;
+        max-width: calc(100% - 48px);
+        @apply mx-auto;
+    }
+    .page-container-fluid {
+        width: 1440px;
+        max-width: calc(100% - 48px);
+        @apply mx-auto;
+    }
+
+    .movie-list .swiper-slide {
+        width: 300px;
+        height: auto;
+    }
+
+    .banner .swiper {
+        height: 100%;
+    }
+}
