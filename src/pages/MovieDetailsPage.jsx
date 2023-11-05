@@ -51,10 +51,9 @@ const MovieDetailsPage = () => {
                 <p className="text-center text-2xl leading-relaxed max-w-[600px] mx-auto pb-20">
                     {overview}
                 </p>
+                <MovieVideos />
 
                 <MovieCredits />
-
-                <MovieVideos />
             </div>
         </section>
     );
@@ -106,9 +105,9 @@ function MovieVideos() {
     const { results } = data;
 
     return (
-        <div>
+        <div className="mb-10">
             {results.slice(0, 5).map((item) => (
-                <div key={item.id} className="flex flex-col gap-5">
+                <div key={item.id} className="flex flex-col gap-5 items-center">
                     {console.log(item.key)}
                     <div className="">
                         <iframe
