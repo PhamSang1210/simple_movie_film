@@ -1,12 +1,14 @@
 import { useParams } from "react-router-dom";
 import useSWR from "swr";
 import { apiKey, fetcher } from "../config";
+import { Fragment } from "react";
 const MovieDetailsPage = () => {
     const { movieId } = useParams();
     const { data, error } = useSWR(
         `https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}`,
         fetcher
     );
+    if (error) console.log(error);
     if (!data) return null;
     const { backdrop_path, poster_path, title, genres, overview } = data;
     console.log(movieId);
@@ -46,12 +48,83 @@ const MovieDetailsPage = () => {
                     </div>
                 )}
 
-                <p className="text-center leading-relaxed max-w-[600px] mx-auto pb-20">
+                <p className="text-center text-2xl leading-relaxed max-w-[600px] mx-auto pb-20">
                     {overview}
                 </p>
+
+                <MovieCredits />
+
+                <MovieVideos />
             </div>
         </section>
     );
 };
+
+function MovieCredits() {
+    const { movieId } = useParams();
+    const { data, error } = useSWR(
+        `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${apiKey}`,
+        fetcher
+    );
+    if (error) return;
+    if (!data) return null;
+    const { cast } = data;
+    if (!cast || cast.length <= 0) return null;
+
+    console.log("Casts: ", cast);
+    return (
+        <Fragment>
+            <h2 className="text-center mb-10">Casts</h2>
+            <div className="grid grid-cols-4 gap-5">
+                {cast.slice(0, 6).map((item) => (
+                    <div
+                        key={item.id}
+                        className="flex justify-center flex-col items-center cast_item mb-4"
+                    >
+                        <img
+                            src={`https://image.tmdb.org/t/p/original${item.profile_path}`}
+                            alt=""
+                            className="w-[350px] h-[350px] object-cover rounded-lg mb-3"
+                        />
+                        <h2 className="text-center">{item.name}</h2>
+                    </div>
+                ))}
+            </div>
+        </Fragment>
+    );
+}
+
+function MovieVideos() {
+    const { movieId } = useParams();
+    const { data, error } = useSWR(
+        `https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${apiKey}`,
+        fetcher
+    );
+    if (error) return;
+    if (!data) return null;
+    console.log("Video: ", data);
+    const { results } = data;
+
+    return (
+        <div>
+            {results.slice(0, 5).map((item) => (
+                <div key={item.id} className="flex flex-col gap-5">
+                    {console.log(item.key)}
+                    <div className="">
+                        <iframe
+                            width="864"
+                            height="486"
+                            src={`https://www.youtube.com/embed/${item.key}`}
+                            title="My Universal Story: Emily Poulliard | Five Nights At Freddy&#39;s"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen
+                        ></iframe>
+                    </div>
+                </div>
+            ))}
+        </div>
+    );
+}
 
 export default MovieDetailsPage;
