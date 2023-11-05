@@ -1,5 +1,3 @@
-function ListLayout({ children }) {
+export function ListLayout({ children }) {
     return children;
 }
-
-export default ListLayout;

@@ -5,10 +5,10 @@ import "swiper/scss";
 import useSWR from "swr";
 import { fetcher } from "../../config";
 
-function MovieList({ type }) {
+function MovieList() {
     const [movies, setMovies] = useState([]);
     const { data } = useSWR(
-        "https://api.themoviedb.org/3/movie/upcoming?api_key=e05b0c0cd596ad7a60adf237a07abf19",
+        `https://api.themoviedb.org/3/movie/now_playing?api_key=e05b0c0cd596ad7a60adf237a07abf19`,
         fetcher
     );
 
@@ -31,7 +31,6 @@ function MovieList({ type }) {
                     ))}
                 </Swiper>
             </div>
-            ;
         </Fragment>
     );
 }
