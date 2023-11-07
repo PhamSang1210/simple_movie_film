@@ -1,12 +1,29 @@
 import useSWR from "swr";
 import { apiKey, fetcher } from "../config";
 import MovieCard from "../components/movie/MovieCard";
+import { useEffect, useState } from "react";
+import { useDebounce } from "../hooks/useDebounce";
 
 export const MoviePage = () => {
-    const { data } = useSWR(
-        `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}`,
-        fetcher
+    const [filter, setFilter] = useState("");
+    const [url, setUrl] = useState(
+        `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}`
     );
+    const filterDebounce = useDebounce(filter, 500);
+    const { data } = useSWR(url, fetcher);
+
+    useEffect(() => {
+        if (filterDebounce) {
+            setUrl(
+                `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${filterDebounce}`
+            );
+        } else {
+            setUrl(
+                `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}`
+            );
+        }
+    }, [filterDebounce]);
+
     const movies = data?.results || [];
     console.log(movies.map((x) => console.log(x)));
 
@@ -16,6 +33,7 @@ export const MoviePage = () => {
             <div className="flex mb-10">
                 <div className="flex-1" dir="ltr">
                     <input
+                        onChange={(e) => setFilter(e.target.value)}
                         type="text"
                         className="w-full bg-slate-800 text-white p-4 border-none border-transparent outline-none rounded-s-xl caret-red-900 caret-bar"
                         placeholder="Input here search..."

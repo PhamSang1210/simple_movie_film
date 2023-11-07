@@ -109,13 +109,13 @@ function MovieVideos() {
             {results.slice(0, 5).map((item) => (
                 <div key={item.id} className="flex flex-col gap-5 items-center">
                     {console.log(item.key)}
-                    <div className="">
+                    <div className="mb-2">
                         <iframe
                             width="864"
                             height="486"
                             src={`https://www.youtube.com/embed/${item.key}`}
                             title="My Universal Story: Emily Poulliard | Five Nights At Freddy&#39;s"
-                            frameborder="0"
+                            frameBorder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                             allowfullscreen
                         ></iframe>
