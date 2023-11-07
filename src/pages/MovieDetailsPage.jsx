@@ -10,51 +10,57 @@ const MovieDetailsPage = () => {
     );
     if (error) console.log(error);
     if (!data) return null;
+    const loading = !data && !error;
     const { backdrop_path, poster_path, title, genres, overview } = data;
     console.log(movieId);
     console.log("MovieDetailsPage ~ data: ", data);
     return (
         <section className="pb-10">
-            <div className="w-full h-[600px] relative page-container mb-20">
-                <div className="absolute inset-0 bg-black bg-opacity-25"></div>
-                <div
-                    className="w-full h-full bg-cover bg-no-repeat rounded-xl"
-                    style={{
-                        backgroundImage: `url(https://image.tmdb.org/t/p/original${backdrop_path})`,
-                    }}
-                ></div>
+            {loading && (
+                <div className="w-10 h-10 rounded-full border-4 border-primary border-t-transparent  mx-auto animate-spin"></div>
+            )}
+            {!loading && (
+                <div className="w-full h-[600px] relative page-container mb-20">
+                    <div className="absolute inset-0 bg-black bg-opacity-25"></div>
+                    <div
+                        className="w-full h-full bg-cover bg-no-repeat rounded-xl"
+                        style={{
+                            backgroundImage: `url(https://image.tmdb.org/t/p/original${backdrop_path})`,
+                        }}
+                    ></div>
 
-                <div className="w-full h-[400px] max-w-[800px] mx-auto -mt-[200px] relative z-10 pb-10">
-                    <img
-                        src={`https://image.tmdb.org/t/p/original${poster_path}`}
-                        className="w-full h-full object-cover rounded-xl"
-                        alt=""
-                    />
-                </div>
-
-                <h1 className="text-white text-center text-5xl font-bold mb-10">
-                    {title}
-                </h1>
-                {genres.length > 0 && (
-                    <div className="flex justify-center items-center gap-x-10 mb-10  ">
-                        {genres.map((item) => (
-                            <span
-                                className="block py-4 px-6 border-primary border rounded-sm"
-                                key={item.id}
-                            >
-                                {item.name}
-                            </span>
-                        ))}
+                    <div className="w-full h-[400px] max-w-[800px] mx-auto -mt-[200px] relative z-10 pb-10">
+                        <img
+                            src={`https://image.tmdb.org/t/p/original${poster_path}`}
+                            className="w-full h-full object-cover rounded-xl"
+                            alt=""
+                        />
                     </div>
-                )}
 
-                <p className="text-center text-2xl leading-relaxed max-w-[600px] mx-auto pb-20">
-                    {overview}
-                </p>
-                <MovieVideos />
+                    <h1 className="text-white text-center text-5xl font-bold mb-10">
+                        {title}
+                    </h1>
+                    {genres.length > 0 && (
+                        <div className="flex justify-center items-center gap-x-10 mb-10  ">
+                            {genres.map((item) => (
+                                <span
+                                    className="block py-4 px-6 border-primary border rounded-sm"
+                                    key={item.id}
+                                >
+                                    {item.name}
+                                </span>
+                            ))}
+                        </div>
+                    )}
 
-                <MovieCredits />
-            </div>
+                    <p className="text-center text-2xl leading-relaxed max-w-[600px] mx-auto pb-20">
+                        {overview}
+                    </p>
+                    <MovieVideos />
+
+                    <MovieCredits />
+                </div>
+            )}
         </section>
     );
 };
