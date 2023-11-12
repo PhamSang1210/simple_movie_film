@@ -29,6 +29,8 @@ function MovieList() {
                             <MovieCard item={item} />
                         </SwiperSlide>
                     ))}
+
+                    {}
                 </Swiper>
             </div>
         </Fragment>
