@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import MovieList from "../components/movie/MovieList";
-
+// import MovieList from "~/components/movie/MovieList";
 function HomePage() {
     return (
         <Fragment>
